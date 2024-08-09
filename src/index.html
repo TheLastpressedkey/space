@@ -124,7 +124,7 @@
         const password = document.getElementById('password').value;
 
         if (username === 'root' && password === 'toor') {
-          // Authentication successful
+         
           document.body.innerHTML = `
             <noscript>
               <main>
@@ -144,7 +144,7 @@
               }
             </script>`;
         } else {
-          // Authentication failed
+         
           const errorMessage = document.getElementById('error-message');
           errorMessage.style.display = 'block';
         }

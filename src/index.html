@@ -63,23 +63,59 @@
 		<!-- Web Manifest  -->
 		<link rel="manifest" href="./manifest.webmanifest">
 	</head>
-	<body>
-		<noscript>
-			<main>
-				<p>Please enable Javascript in order to use all functions of Manifest.</p>
-			</main>
-		</noscript>
-		<script type="module" src="./js/index.js"></script>
-		<script type="module">
-			if ("serviceWorker" in navigator) {
-				navigator.serviceWorker.register(new URL("service-worker.js", import.meta.url), { type: "module" }).then(function (serviceWorker) {
-					console.log("Service Worker registered.");
-					console.log(serviceWorker);
-				}).catch(function (error) {
-					console.log("Error registering the Service Worker.");
-					console.log(error);
-				});
-			}
-		</script>
-  	</body>
+	  <body>
+    <noscript>
+      <main>
+        <p>Please enable Javascript in order to use all functions of Manifest.</p>
+      </main>
+    </noscript>
+
+    <div id="login-container">
+      <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+        <button type="submit">Login</button>
+        <p id="error-message" style="color: red;"></p>
+      </form>
+    </div>
+
+    <div id="content" style="display: none;">
+      <h1>Welcome to Manifest!</h1>
+      <p>This content is only visible to authenticated users.</p>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
+    <script type="module">
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register(new URL("service-worker.js", import.meta.url), { type: "module" }).then(function (serviceWorker) {
+          console.log("Service Worker registered.");
+          console.log(serviceWorker);
+        }).catch(function (error) {
+          console.log("Error registering the Service Worker.");
+          console.log(error);
+        });
+      }
+
+      // Login form submission
+      document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+
+        // Simple authentication check
+        if (username === 'root' && password === 'toor') {
+          // Hide the login form and show the content
+          document.getElementById('login-container').style.display = 'none';
+          document.getElementById('content').style.display = 'block';
+        } else {
+          errorMessage.textContent = 'Incorrect username or password. Please try again.';
+        }
+      });
+    </script>
+  </body>
 </html>

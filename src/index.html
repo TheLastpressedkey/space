@@ -109,20 +109,34 @@
     </style>
 	</head>
 		<body>
-		<div class="login-container" id="login-container">
-			<h2>Login</h2>
-			<div class="error-message" id="error-message">Invalid username or password.</div>
-			<input type="text" id="username" placeholder="Username">
-			<input type="password" id="password" placeholder="Password">
-			<button onclick="login()">Login</button>
-		</div>
+	<div class="login-container" id="login-container">
+		<h2>Login</h2>
+		<div class="error-message" id="error-message">Invalid username or password.</div>
+		<input type="text" id="username" placeholder="Username">
+		<input type="password" id="password" placeholder="Password">
+		<button onclick="login()">Login</button>
+	</div>
 
-		<noscript>
-			<main>
-				<p>Please enable Javascript in order to use all functions of Manifest.</p>
-			</main>
-		</noscript>
+	<noscript>
+		<main>
+			<p>Please enable Javascript in order to use all functions of Manifest.</p>
+		</main>
+	</noscript>
 
+	<script>
+		function login() {
+			const username = document.getElementById('username').value;
+			const password = document.getElementById('password').value;
+
+			if (username === 'root' && password === 'toor') {
+				// Authentication successful, replace form with script
+				document.getElementById('login-container').innerHTML = '<script type="module" src="./js/index.js"></script>';
+			} else {
+				// Authentication failed, show error message
+				document.getElementById('error-message').style.display = 'block';
+			}
+		}
+	</script>
 		
 	</body>
 </html>

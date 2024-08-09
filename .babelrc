@@ -1,0 +1,6 @@
+{
+	"comments": false,
+	"presets": [
+		["minify", { "builtIns": false }]
+	]
+}

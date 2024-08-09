@@ -111,7 +111,7 @@
 		<body>
 	<div class="login-container" id="login-container">
 		<h2>Login</h2>
-		<div class="error-message" id="error-message">Invalid username or password.</div>
+		<div class="error-message" id="error-message" style="display: none;">Invalid username or password.</div>
 		<input type="text" id="username" placeholder="Username">
 		<input type="password" id="password" placeholder="Password">
 		<button onclick="login()">Login</button>
@@ -123,20 +123,26 @@
 		</main>
 	</noscript>
 
-	<script>
+	<script type="module">
 		function login() {
 			const username = document.getElementById('username').value;
 			const password = document.getElementById('password').value;
 
 			if (username === 'root' && password === 'toor') {
-				// Authentication successful, replace form with script
-				document.getElementById('login-container').innerHTML = '<script type="module" src="./js/index.js"></script>';
+				// Authentication successful
+				document.getElementById('login-container').style.display = 'none'; // Hide login form
+				// Dynamically load the script
+				const script = document.createElement('script');
+				script.type = 'module';
+				script.src = './js/index.js';
+				document.body.appendChild(script); // Append the script to the body
 			} else {
-				// Authentication failed, show error message
-				document.getElementById('error-message').style.display = 'block';
+				// Authentication failed
+				const errorMessage = document.getElementById('error-message');
+				errorMessage.style.display = 'block'; // Show error message
 			}
 		}
 	</script>
-		
-	</body>
+</body>
+
 </html>

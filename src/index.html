@@ -123,52 +123,6 @@
 			</main>
 		</noscript>
 
-		<script type="module">
-			// Function to get a cookie by name
-			function getCookie(name) {
-				let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-				if (match) return match[2];
-				return null;
-			}
-
-			// Function to create a cookie
-			function setCookie(name, value, days) {
-				let expires = "";
-				if (days) {
-					let date = new Date();
-					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					expires = "; expires=" + date.toUTCString();
-				}
-				document.cookie = name + "=" + (value || "") + expires + "; path=/";
-			}
-
-			// Function to check authentication status
-			function checkAuth() {
-				const authCookie = getCookie('auth');
-				if (authCookie === 'authenticated') {
-					document.body.innerHTML = '<script type="module" src="./js/index.js"></script>';
-				}
-			}
-
-			// Login function
-			function login() {
-				const username = document.getElementById('username').value;
-				const password = document.getElementById('password').value;
-
-				if (username === 'root' && password === 'toor') {
-					// Authentication successful
-					setCookie('auth', 'authenticated', 7); // Set authentication cookie for 7 days
-					document.body.innerHTML = '<script type="module" src="./js/index.js"></script>';
-				} else {
-					// Authentication failed
-					const errorMessage = document.getElementById('error-message');
-					errorMessage.style.display = 'block';
-				}
-			}
-
-			// Check authentication status on page load
-			checkAuth();
-
-		</script>
+		
 	</body>
 </html>

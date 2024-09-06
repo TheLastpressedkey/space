@@ -515,8 +515,54 @@ function onLoad() {
     }
   }
 
+  // Add a save button
+  const saveButton = document.createElement("button");
+  saveButton.textContent = "Save Board";
+  saveButton.style.position = "fixed";
+  saveButton.style.bottom = "20px";
+  saveButton.style.right = "20px";
+  saveButton.style.zIndex = STATIC_INDEX + 1;
+  saveButton.style.padding = "10px";
+  saveButton.style.cursor = "pointer";
+  saveButton.addEventListener("click", saveBoardToJSON);
+  document.body.appendChild(saveButton);
+
   onResize();
 };
+
+// Modify the setLocalStorageItem function
+function setLocalStorageItem(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+  // We'll remove the automatic saving to avoid too frequent saves
+}
+
+// Add this new function to save the board data to a JSON file
+function saveBoardToJSON() {
+  const memos = getLocalStorageItem("manifest_memos");
+  const boardData = {
+    memos: memos,
+    theme: theme
+  };
+  const jsonData = JSON.stringify(boardData, null, 2);
+  const blob = new Blob([jsonData], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = "manifest_board.json";
+  
+  // Append link to the body (required for Firefox)
+  document.body.appendChild(link);
+  
+  // Simulate click
+  link.click();
+  
+  // Remove link from the body
+  document.body.removeChild(link);
+  
+  // Free up memory by revoking the Object URL
+  URL.revokeObjectURL(url);
+}
 
 window.addEventListener("resize", onResize);
 window.addEventListener("load", onLoad);

@@ -29,7 +29,7 @@ body {
             position: absolute;
         }
 
-        section#board {
+        sectiony#board {
             position: absolute;
 
             &.active {
@@ -149,5 +149,21 @@ body {
                 }
             }
         }
+    }
+}
+
+button#save-board {
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 1px solid var(--foreground);
+    font-family: monospace;
+    font-size: 13px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+        background-color: var(--foreground);
+        color: var(--background);
     }
 }

@@ -41,3 +41,32 @@ export function decreaseAllMemoIndexes() {
     memo.style.zIndex = --index;
   }
 };
+
+// Fonction pour sauvegarder également dans un fichier JSON
+export function saveToJsonFile(item, value) {
+  const data = { [item]: value };
+  const jsonString = JSON.stringify(data, null, 2); // Convertit en JSON formaté
+
+  // Création d'un Blob pour les données JSON
+  const blob = new Blob([jsonString], { type: "application/json" });
+
+  // Crée un lien temporaire pour télécharger le fichier
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${item}.json`; // Nom du fichier de sortie
+  a.click();
+
+  // Libère l'URL après téléchargement
+  URL.revokeObjectURL(url);
+}
+
+// Modifier la fonction setLocalStorageItem pour appeler saveToJsonFile
+export function setLocalStorageItem(item, value) {
+  // Sauvegarder dans localStorage
+  window.localStorage.setItem(`${item}`, JSON.stringify(value));
+
+  // Sauvegarder également dans un fichier JSON
+  saveToJsonFile(item, value);
+}
+

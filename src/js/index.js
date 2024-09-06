@@ -537,32 +537,55 @@ function setLocalStorageItem(key, value) {
 }
 
 // Add this new function to save the board data to a JSON file
-function saveBoardToJSON() {
+function exportMemosToJSON() {
   const memos = getLocalStorageItem("manifest_memos");
-  const boardData = {
-    memos: memos,
-    theme: theme
-  };
-  const jsonData = JSON.stringify(boardData, null, 2);
-  const blob = new Blob([jsonData], { type: "application/json" });
+  return JSON.stringify(memos, null, 2); // Beautify the JSON output
+}
+
+function saveJSONFile(content, filename) {
+  const blob = new Blob([content], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = "manifest_board.json";
-  
-  // Append link to the body (required for Firefox)
-  document.body.appendChild(link);
-  
-  // Simulate click
-  link.click();
-  
-  // Remove link from the body
-  document.body.removeChild(link);
-  
-  // Free up memory by revoking the Object URL
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
   URL.revokeObjectURL(url);
 }
+textarea.addEventListener("input", function (e) {
+  const memos = getLocalStorageItem("manifest_memos");
+  memos[id] = { ...memos[id], text: e.target.value };
+  setLocalStorageItem("manifest_memos", memos);
+
+  // Sauvegarde automatique du fichier JSON
+  const jsonContent = exportMemosToJSON();
+  saveJSONFile(jsonContent, 'memos.json');
+}, { passive: false, useCapture: false });
+const id = activeMemo.dataset.id;
+const memos = getLocalStorageItem("manifest_memos");
+memos[id] = { ...memos[id], position: { top, left } };
+setLocalStorageItem("manifest_memos", memos);
+
+// Sauvegarde automatique du fichier JSON
+const jsonContent = exportMemosToJSON();
+saveJSONFile(jsonContent, 'memos.json');
+
+const id = activeMemo.dataset.id;
+const memos = getLocalStorageItem("manifest_memos");
+memos[id] = { ...memos[id], size: { width, height } };
+setLocalStorageItem("manifest_memos", memos);
+
+// Sauvegarde automatique du fichier JSON
+const jsonContent = exportMemosToJSON();
+saveJSONFile(jsonContent, 'memos.json');
+
+const saveButton = document.createElement('button');
+saveButton.innerText = "Save Memos";
+saveButton.addEventListener("click", function() {
+  const jsonContent = exportMemosToJSON();
+  saveJSONFile(jsonContent, 'memos.json');
+});
+document.body.appendChild(saveButton);
+
 
 window.addEventListener("resize", onResize);
 window.addEventListener("load", onLoad);

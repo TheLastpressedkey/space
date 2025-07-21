@@ -38,7 +38,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "kind-of": "^6.0.3",
     "pre-commit": "^1.2.2",
-    "sass": "^1.26.9"
+    "sass": "^1.26.9",
+    "vite": "^7.0.5"
   },
   "dependencies": {
     "@parcel/service-worker": "^2.12.0"
